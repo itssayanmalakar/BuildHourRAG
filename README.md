@@ -163,6 +163,24 @@ make sources        # regenerate SOURCES.md from data/sources.csv
 
 ---
 
+## Deploy
+
+The app runs locally at <http://localhost:8501> (`make run`). To publish it:
+
+- **GitHub:** create an empty repo and push `main` (commands in
+  [`DEPLOYMENT.md`](DEPLOYMENT.md)).
+- **Streamlit Community Cloud:** deploy `app.py` from the repo with Python 3.12
+  and add `GROQ_API_KEY` + `GROQ_MODEL` as secrets. This is the recommended host.
+- **Render/Railway:** same code, container-style start command, two environment
+  variables.
+- **Vercel:** not supported as-is — Streamlit needs a long-running server, not
+  serverless functions. See the re-architecture notes in `DEPLOYMENT.md`.
+
+The prebuilt `data/index/` is committed so the host can start without
+re-ingesting the corpus. Full instructions: [`DEPLOYMENT.md`](DEPLOYMENT.md).
+
+---
+
 ## Answer contract
 
 Every factual answer has the same shape:
@@ -231,8 +249,9 @@ This is what makes the demo usable without a key. Set
 - INDmoney pages are platform/education content. They are required in the
   corpus but cannot supply scheme-specific AMC facts; scheme facts come from
   the HDFC pages.
-- `data/raw/`, `data/index/`, `data/embed_cache/` and `data/traces/` are build
-  artifacts and are gitignored.
+- `data/raw/`, `data/embed_cache/` and `data/traces/` are build artifacts and
+  are gitignored. `data/index/` and `data/chunks.jsonl` are committed so the
+  deployed app can start without a rebuild.
 
 ### Known limitations
 
