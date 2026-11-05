@@ -1,0 +1,20 @@
+id,url,title,tier,amc,scheme,doc_type,enabled,needs_js
+indmoney-mf-home,https://www.indmoney.com/mutual-funds,INDmoney Mutual Funds,2,INDmoney,_general,help_page,true,false
+indmoney-portfolio,https://www.indmoney.com/mutual-funds/portfolio-analytics,INDmoney Portfolio Analytics,2,INDmoney,_general,help_page,true,false
+indmoney-screener,https://www.indmoney.com/mutual-funds/screener,INDmoney Mutual Fund Screener,2,INDmoney,_general,screener,true,false
+indmoney-daily-sip,https://www.indmoney.com/blog/mutual-funds/daily-sips-in-mutual-funds-feature,INDmoney Blog: Daily SIPs in Mutual Funds,2,INDmoney,_general,blog,true,false
+indmoney-category,https://www.indmoney.com/mutual-funds/category,INDmoney Mutual Fund Categories,2,INDmoney,_general,help_page,true,false
+indmoney-collection,https://www.indmoney.com/mutual-funds/collection,INDmoney Mutual Fund Collections,2,INDmoney,_general,help_page,true,false
+hdfc-flexi-cap,https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct,HDFC Flexi Cap Fund - Direct Plan,1,HDFC Mutual Fund,HDFC Flexi Cap Fund,scheme_page,true,false
+hdfc-large-cap,https://www.hdfcfund.com/explore/mutual-funds/hdfc-large-cap-fund/direct,HDFC Large Cap Fund - Direct Plan,1,HDFC Mutual Fund,HDFC Large Cap Fund,scheme_page,true,false
+hdfc-elss,https://www.hdfcfund.com/explore/mutual-funds/hdfc-elss-tax-saver-fund/direct,HDFC ELSS Tax Saver Fund - Direct Plan,1,HDFC Mutual Fund,HDFC ELSS Tax Saver Fund,scheme_page,true,false
+hdfc-nifty50,https://www.hdfcfund.com/explore/mutual-funds/hdfc-nifty-50-index-fund/direct,HDFC Nifty 50 Index Fund - Direct Plan,1,HDFC Mutual Fund,HDFC Nifty 50 Index Fund,scheme_page,true,false
+hdfc-index-list,https://www.hdfcfund.com/explore/mutual-funds/index,Index Funds - HDFC Mutual Fund,1,HDFC Mutual Fund,_general,help_page,true,false
+hdfc-cas,https://www.hdfcfund.com/services/consolidated-account-statement,Consolidated Account Statement - HDFC Mutual Fund,1,HDFC Mutual Fund,_general,help_page,true,false
+hdfc-faqs,https://www.hdfcfund.com/services/faqs,HDFC Mutual Fund - FAQs,1,HDFC Mutual Fund,_general,help_page,true,false
+sebi-investor,https://investor.sebi.gov.in/,SEBI Investor Education,1,SEBI,_general,regulator,true,false
+sebi-home,https://www.sebi.gov.in/,Securities and Exchange Board of India,1,SEBI,_general,regulator,true,false
+amfi,https://www.amfiindia.com/,Association of Mutual Funds in India,1,AMFI,_general,regulator,true,false
+amfi-mf-basics,https://www.amfiindia.com/mutual-fund,Mutual Fund Basics - AMFI,1,AMFI,_general,regulator,true,false
+mfcentral,https://www.mfcentral.com/,MF Central - Consolidated Mutual Fund Services,1,MF Central,_general,help_page,true,false
+kfintech,https://mfs.kfintech.com/investor/,KFintech Investor Portal,1,KFintech,_general,help_page,true,false

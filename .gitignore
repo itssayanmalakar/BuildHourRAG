@@ -1,0 +1,15 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.egg-info/
+.pytest_cache/
+.streamlit/secrets.toml
+
+# Build artifacts (regenerate with `make build`)
+# data/index/ is committed on purpose so the Streamlit deployment can start
+# without re-ingesting the corpus.
+data/raw/
+data/embed_cache/
+data/traces/

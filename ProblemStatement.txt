@@ -1,0 +1,75 @@
+INDMoney — Mutual Fund FAQs (Facts-Only Q&A)
+Milestone brief
+
+Build a small FAQ assistant that answers facts about mutual fund schemes — e.g., expense
+ratio, exit load, minimum SIP, lock-in (ELSS), riskometer, benchmark, and how to download
+statements — using only official public pages. Every answer must include one source link.
+No advice.
+
+WHO THIS HELPS
+Retail users comparing schemes; support/content teams answering repetitive MF questions.
+
+WHAT YOU MUST BUILD
+Scope your corpus: Pick one AMC and 3-5 schemes under it (e.g., one large-cap, one
+flexi-cap, one ELSS).
+
+DATA — Scrape these pages:
+  https://www.indmoney.com/mutual-funds
+  https://www.indmoney.com/mutual-funds/portfolio-analytics
+  https://www.indmoney.com/mutual-funds/screener
+  https://www.indmoney.com/blog/mutual-funds/daily-sips-in-mutual-funds-feature
+  https://www.indmoney.com/mutual-funds/category
+  https://www.indmoney.com/mutual-funds/collection
+
+FAQ ASSISTANT (working prototype)
+- Answers factual queries only (e.g., "Expense ratio of ?", "ELSS lock-in?", "Minimum SIP?",
+  "Exit load?", "Riskometer/benchmark?", "How to download capital-gains statement?").
+- Shows one clear citation link in every answer.
+- Refuses opinionated/portfolio questions (e.g., "Should I buy/sell?") with a polite,
+  facts-only message and a relevant educational link.
+- Tiny UI: welcome line + 3 example questions and a note: "Facts-only. No investment advice."
+
+KEY CONSTRAINTS
+- Public sources only. No screenshots of the app back-end; no third-party blogs as sources.
+- No PII. Do not accept/store PAN, Aadhaar, account numbers, OTPs, emails, or phone numbers.
+- No performance claims. Don't compute/compare returns; link to the official factsheet if asked.
+- Clarity & transparency. Keep answers <=3 sentences; add "Last updated from sources: ".
+
+DELIVERABLES
+- Working prototype link (app/notebook) or a <=3-min demo video if hosting isn't possible.
+- Source list (CSV/MD) of the 15-25 URLs used.
+- README with setup steps, scope (AMC + schemes), and known limits.
+- Sample Q&A file (5-10 queries with the assistant's answers + links).
+- Disclaimer snippet used in the UI (facts-only, no advice).
+
+SKILLS BEING TESTED
+W1 — Thinking Like a Model: identify the exact fact asked; decide answer vs. refuse.
+W2 — LLMs & Prompting: instruction style, concise phrasing, polite safe-refusals, citation wording.
+W3 — RAGs (only): small-corpus retrieval with accurate citations from AMC/SEBI/AMFI pages.
+
+
+IMPLEMENTATION PLAN (phase-wise)
+1) Data loading
+2) Data chunking
+3) Data embedding
+4) Vector DB
+
+All four phases must be driven by a single, editable config file (no hardcoded
+values in code). Data retrieval reuses the same Embedding + Vector DB settings as
+ingestion, and adds an LLM.
+
+DATA RETRIEVAL
+- Embedding        -> same as ingestion config
+- Vector DB        -> same as ingestion config
+- LLM              -> Groq
+- API key          -> GROQ_API_KEY (stored in .env only, never committed)
+- Model            -> read from .env (GROQ_MODEL), do not hardcode in source
+
+PROVIDER OPTIONS (selectable via config / .env)
+- Groq (default)
+- Google Gemini
+- OpenAI
+- Anthropic
+- Mistral
+
+NOTE: the API key previously pasted into chat was exposed and must be revoked.

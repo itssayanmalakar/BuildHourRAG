@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mf-facts"
+version = "0.1.0"
+description = "Facts-only mutual fund FAQ assistant with citations"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+mf-facts = "mf_facts.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]

@@ -1,0 +1,16 @@
+# Pinned to the versions verified in this build.
+streamlit==1.66.1
+httpx==0.28.1
+curl-cffi==0.17.0
+trafilatura==1.12.2
+beautifulsoup4==4.15.0
+lxml==5.4.0
+pydantic==2.14.2
+PyYAML==6.0.3
+python-dotenv==1.2.4
+sentence-transformers==5.7.0
+chromadb==1.1.1
+rank-bm25==0.2.2
+groq==0.37.1
+numpy==2.5.4
+pytest==8.4.2
