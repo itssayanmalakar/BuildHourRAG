@@ -22,6 +22,8 @@ ROOT = Path(__file__).resolve().parents[2]
 @pytest.mark.parametrize("q,key", [
     ("What is mutual funds?", "mutual_fund"),
     ("What is a mutual fund?", "mutual_fund"),
+    ("What are mutual funds?", "mutual_fund"),
+    ("Can you explain mutual funds to me", "mutual_fund"),
     ("What is a flexi cap fund?", "flexi_cap"),
     ("Can you give me some example of flexi cap funds?", "flexi_cap_examples"),
     ("What is SIP?", "sip"),

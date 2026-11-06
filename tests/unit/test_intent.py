@@ -46,6 +46,8 @@ def test_exit_load_sell_is_not_advice():
 @pytest.mark.parametrize("q,intent", [
     ("What is a mutual fund?", Intent.EDUCATION),
     ("What is mutual funds?", Intent.EDUCATION),
+    ("What are mutual funds?", Intent.EDUCATION),
+    ("Can you explain mutual funds to me", Intent.EDUCATION),
     ("What is a flexi cap fund?", Intent.EDUCATION),
     ("Can you give me some example of flexi cap funds?", Intent.EDUCATION),
     ("What is SIP?", Intent.EDUCATION),

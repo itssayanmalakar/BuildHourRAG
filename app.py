@@ -39,6 +39,9 @@ EXAMPLES = [
     "Can you give me some example of flexi cap funds?",
 ]
 
+# Shown in the sidebar so it is obvious which build is live after a redeploy.
+APP_BUILD = "education + history · 2026-11-06"
+
 
 @st.cache_resource(show_spinner="Loading index and models…")
 def get_service():
@@ -96,6 +99,7 @@ with st.sidebar:
             "recommend, rank, or predict returns. Always verify on the AMC/SEBI/AMFI "
             "page before acting."
         )
+    st.caption(f"Build: {APP_BUILD}")
 
 with st.expander("Example questions", expanded=not st.session_state.messages):
     columns = st.columns(3)

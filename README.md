@@ -15,8 +15,8 @@ from the CLI.
 |---|---|
 | Sources ingested | 19/19 |
 | Chunks / vectors | 216 / 216, dim 384, fingerprint OK |
-| Unit tests | 80 passed |
-| Golden set (Groq enabled) | 48/48 passed |
+| Unit tests | 84 passed |
+| Golden set (Groq enabled) | 50/50 passed |
 | Streamlit smoke test | chat history persists; answers show citation + date |
 | LLM | Groq `qwen/qwen3.8-27b` |
 
@@ -165,7 +165,7 @@ Run checks:
 
 ```bash
 make test           # unit tests (no network/model download)
-make eval           # 48-case golden set, incl. education, refusals and PII
+make eval           # 50-case golden set, incl. education, refusals and PII
 make sources        # regenerate SOURCES.md from data/sources.csv
 ```
 
@@ -302,8 +302,8 @@ src/mf_facts/
   llm/                      Groq client and prompts
   guardrails/               PII, intent router, education copy, templates, validators
   obs/                      logging and traces
-tests/unit/                 80 unit tests
-tests/golden/golden_set.yaml 48-case evaluation set
+tests/unit/                 84 unit tests
+tests/golden/golden_set.yaml 50-case evaluation set
 scripts/gen_sources.py      SOURCES.md generator
 ```
 

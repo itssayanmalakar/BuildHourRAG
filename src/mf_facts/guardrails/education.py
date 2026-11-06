@@ -301,6 +301,8 @@ EDUCATION_BY_KEY: dict[str, EducationEntry] = {e.key: e for e in EDUCATION_ENTRI
 LOOKUP_RE = re.compile(
     r"^\s*(what\s+(is|are|does|do)|what's|define|explain|meaning\s+of"
     r"|tell\s+me\s+about|describe)\b"
+    r"|\b(can\s+you\s+explain|could\s+you\s+explain|please\s+explain"
+    r"|help\s+me\s+understand)\b"
     r"|\b(example|examples|difference\s+between|types?\s+of|how\s+does)\b",
     re.I,
 )

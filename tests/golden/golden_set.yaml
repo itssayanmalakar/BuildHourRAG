@@ -156,6 +156,18 @@
   contains: ["pools money"]
   host: "amfiindia.com"
 
+- q: "What are mutual funds?"
+  kind: answer
+  intent: education
+  contains: ["pools money"]
+  host: "amfiindia.com"
+
+- q: "Can you explain mutual funds to me"
+  kind: answer
+  intent: education
+  contains: ["pools money"]
+  host: "amfiindia.com"
+
 - q: "What is a flexi cap fund?"
   kind: answer
   intent: education

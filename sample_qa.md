@@ -180,13 +180,13 @@ record only the PII category.
 ## Auto-generated evaluation
 
 `make eval` runs [`tests/golden/golden_set.yaml`](tests/golden/golden_set.yaml),
-48 cases covering all seven fact intents, basic education, scheme detection,
+50 cases covering all seven fact intents, basic education, scheme detection,
 refusals, PII and unknown questions.
 
 Latest run:
 
 ```text
-48/48 passed
+50/50 passed
 ```
 
 ---
