@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import os
+import sys
+from pathlib import Path
 
 import streamlit as st
 
-from mf_facts.service import build_service
-from mf_facts.settings import Settings
+# Streamlit Community Cloud installs requirements.txt but not the local package.
+# Put src/ on the path so `mf_facts` imports work without `pip install -e .`.
+sys.path.insert(0, str(Path(__file__).resolve().parent / "src"))
+
+from mf_facts.service import build_service  # noqa: E402
+from mf_facts.settings import Settings  # noqa: E402
 
 st.set_page_config(page_title="MF Facts Bot", page_icon="📘", layout="centered")
 
