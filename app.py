@@ -34,6 +34,9 @@ EXAMPLES = [
     "What is the expense ratio of HDFC Flexi Cap Fund?",
     "What is the lock-in period for HDFC ELSS Tax Saver Fund?",
     "How do I download my consolidated account statement?",
+    "What is a mutual fund?",
+    "What is a flexi cap fund?",
+    "Can you give me some example of flexi cap funds?",
 ]
 
 
@@ -42,43 +45,88 @@ def get_service():
     return build_service(Settings.load())
 
 
-def render(answer) -> None:
-    if answer.kind == "answer":
-        st.markdown(answer.text)
+def to_record(answer) -> dict:
+    """Serializable snapshot so history survives Streamlit reruns."""
+    return {
+        "kind": answer.kind,
+        "text": answer.text,
+        "citation_url": answer.citation_url,
+        "updated_at": answer.updated_at.isoformat() if answer.updated_at else None,
+    }
+
+
+def render_answer(record: dict) -> None:
+    if record["kind"] == "answer":
+        st.markdown(record["text"])
     else:
-        st.info(answer.text)
-    if answer.citation_url:
-        st.markdown(f"**Source:** [{answer.citation_url}]({answer.citation_url})")
-    if answer.updated_at:
-        st.caption(f"Last updated from sources: {answer.updated_at.isoformat()}")
+        st.info(record["text"])
+    if record.get("citation_url"):
+        st.markdown(f"**Source:** [{record['citation_url']}]({record['citation_url']})")
+    if record.get("updated_at"):
+        st.caption(f"Last updated from sources: {record['updated_at']}")
 
 
 service = get_service()
 
+# Chat history lives in session state and is rendered oldest-first, like a
+# normal messaging app. New turns are appended below the existing ones.
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
 st.title("Mutual fund facts, with sources")
-st.write("Ask a factual question about a mutual fund scheme. "
-         "I answer from official public pages only.")
+st.write("Ask a factual question about a mutual fund scheme, or a basic mutual "
+         "fund concept. I answer from official public pages only.")
 st.caption("**Facts-only. No investment advice.**")
 
-st.write("**Try:**")
-columns = st.columns(3)
-clicked = None
-for column, example in zip(columns, EXAMPLES):
-    if column.button(example, use_container_width=True):
-        clicked = example
+with st.sidebar:
+    if st.button("Clear chat", use_container_width=True):
+        st.session_state.messages = []
+        st.rerun()
+    st.divider()
+    st.write("**What I cover**")
+    st.write(
+        "Expense ratio, exit load, minimum SIP, lock-in, riskometer, benchmark and "
+        "statement downloads for four HDFC schemes, plus basic concepts such as "
+        "SIP, NAV, flexi cap and ELSS."
+    )
+    with st.expander("Disclaimer"):
+        st.write(
+            "Facts-only. No investment advice. This assistant reports publicly "
+            "available scheme facts and links to the official source. It does not "
+            "recommend, rank, or predict returns. Always verify on the AMC/SEBI/AMFI "
+            "page before acting."
+        )
 
-typed = st.chat_input("Ask about expense ratio, exit load, minimum SIP, lock-in…")
+with st.expander("Example questions", expanded=not st.session_state.messages):
+    columns = st.columns(3)
+    clicked = None
+    for index, example in enumerate(EXAMPLES):
+        if columns[index % 3].button(
+            example, key=f"example-{index}", use_container_width=True
+        ):
+            clicked = example
+
+# Render the full conversation before handling a new turn. The new turn is then
+# appended and painted once, so old questions never disappear.
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        if message["role"] == "user":
+            st.markdown(message["content"])
+        else:
+            render_answer(message["answer"])
+
+typed = st.chat_input("Ask about a scheme fact or a mutual fund basic…")
 query = clicked or typed
 
 if query:
-    st.chat_message("user").write(query)
+    st.session_state.messages.append({"role": "user", "content": query})
+    with st.chat_message("user"):
+        st.markdown(query)
+
     with st.chat_message("assistant"):
         with st.spinner("Checking sources…"):
-            render(service.ask(query))
+            answer = service.ask(query)
+        record = to_record(answer)
+        render_answer(record)
 
-with st.expander("Disclaimer"):
-    st.write(
-        "**Facts-only. No investment advice.** This assistant reports publicly available "
-        "scheme facts and links to the official source. It does not recommend, rank, or "
-        "predict returns. Always verify on the AMC/SEBI/AMFI page before acting."
-    )
+    st.session_state.messages.append({"role": "assistant", "answer": record})

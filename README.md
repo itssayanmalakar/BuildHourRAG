@@ -2,9 +2,9 @@
 
 A facts-only mutual fund FAQ assistant built for the INDMoney BuildHour brief.
 It answers seven factual intents about a small, fixed set of HDFC Mutual Fund
-schemes, cites exactly one official source per answer, refuses advice and
-performance questions, and rejects personal data before it is logged or sent to
-a model.
+schemes, plus basic mutual-fund concepts such as SIP, NAV and flexi cap. Every
+answer cites exactly one official source, refuses advice and performance
+questions, and rejects personal data before it is logged or sent to a model.
 
 The working UI is a Streamlit app (`app.py`); the same pipeline is available
 from the CLI.
@@ -15,9 +15,9 @@ from the CLI.
 |---|---|
 | Sources ingested | 19/19 |
 | Chunks / vectors | 216 / 216, dim 384, fingerprint OK |
-| Unit tests | 52 passed |
-| Golden set (Groq enabled) | 35/35 passed |
-| Streamlit smoke test | renders answers with citation + date |
+| Unit tests | 80 passed |
+| Golden set (Groq enabled) | 48/48 passed |
+| Streamlit smoke test | chat history persists; answers show citation + date |
 | LLM | Groq `qwen/qwen3.8-27b` |
 
 ---
@@ -45,6 +45,13 @@ Supported fact intents:
 
 Also answerable: basic scheme metadata (category, plan, fund manager, NAV, AUM)
 when it is present on the scheme page.
+
+A curated education layer answers common concept questions without calling the
+model: what a mutual fund, SIP, NAV, flexi cap, large cap, ELSS, index fund,
+riskometer, expense ratio, exit load, lock-in or folio is; direct vs regular
+plans; growth vs IDCW; CAS and capital-gains statements; and similar basics.
+These answers are fixed copy with one official citation and a fetch date, so
+they cannot drift into advice or invented numbers.
 
 **Not answerable by design:** investment advice, fund comparisons, portfolio
 allocations, return/CAGR/performance claims, NAV predictions, other AMCs, and
@@ -74,7 +81,7 @@ data/sources.csv
 5. Retrieval    scheme filter → fact-type filter → hybrid dense + BM25
       │          reciprocal-rank fusion (src/mf_facts/retrieve)
       ▼
-6. Guardrails   PII gate → intent router → fixed refusal copy
+6. Guardrails   PII gate → intent router → fixed refusals / curated education
       │          citation from retrieved metadata → output validators
       ▼
 7. Answer       ≤ 3 sentences + one source + "Last updated from sources" date
@@ -88,6 +95,9 @@ Design choices that matter:
 - **Refusals are pre-LLM.** Advice, portfolio, performance and prediction
   questions are routed deterministically to fixed compliance copy, so a model
   cannot be talked into answering them.
+- **Basics are curated, not generated.** Definition and example questions use
+  fixed copy with one manifest citation, so they stay within the same
+  one-link / three-sentence / dated contract.
 - **PII is rejected before logging or generation.** PAN, Aadhaar, account/folio
   numbers, OTPs, email addresses and phone numbers are detected in the question
   and discarded. Raw PII is never written to traces.
@@ -155,7 +165,7 @@ Run checks:
 
 ```bash
 make test           # unit tests (no network/model download)
-make eval           # 35-case golden set, incl. refusals and PII
+make eval           # 48-case golden set, incl. education, refusals and PII
 make sources        # regenerate SOURCES.md from data/sources.csv
 ```
 
@@ -196,8 +206,10 @@ Last updated from sources: 2026-11-05
 - a date derived from when the source was fetched
 - no return numbers, rankings or recommendations
 
-Answers without a suitable source return a short `not_found` message rather
-than guessing. Refusals include one educational link (SEBI / AMFI / AMC).
+Scheme facts are drafted by the model and validated against retrieved chunks.
+Basic education answers are fixed copy that never reaches the model. Answers
+without a suitable source return a short `not_found` message rather than
+guessing. Refusals include one educational link (SEBI / AMFI / AMC).
 
 See [`sample_qa.md`](sample_qa.md) for verified examples.
 
@@ -266,6 +278,8 @@ This is what makes the demo usable without a key. Set
   are placeholders for future adapters.
 - Statement questions are answered with the HDFC consolidated-account-statement
   route. Capital-gains statements are treated as the same statement journey.
+- Education answers are general and point-in-time. They explain concepts only;
+  they do not tell you whether a scheme suits your situation.
 
 ---
 
@@ -286,10 +300,10 @@ src/mf_facts/
   vectorstore/              Chroma adapter, fingerprint guard
   retrieve/                 hybrid search, retriever
   llm/                      Groq client and prompts
-  guardrails/               PII, intent router, templates, validators
+  guardrails/               PII, intent router, education copy, templates, validators
   obs/                      logging and traces
-tests/unit/                 52 unit tests
-tests/golden/golden_set.yaml 35-case evaluation set
+tests/unit/                 80 unit tests
+tests/golden/golden_set.yaml 48-case evaluation set
 scripts/gen_sources.py      SOURCES.md generator
 ```
 

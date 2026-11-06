@@ -44,7 +44,8 @@ PII_MESSAGE = (
 
 NOT_FOUND_MESSAGE = (
     "I could not find that fact in my sources. Try asking about expense ratio, exit load, "
-    "minimum SIP, lock-in, riskometer, benchmark, or statement download."
+    "minimum SIP, lock-in, riskometer, benchmark, statement download, or a mutual fund "
+    "basic such as SIP, NAV or flexi cap."
 )
 
 STATEMENT_ANSWER = (

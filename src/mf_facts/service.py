@@ -10,6 +10,7 @@ from datetime import date
 
 from mf_facts.contracts import Answer, Chunk, RetrievedChunk
 from mf_facts.guardrails import templates
+from mf_facts.guardrails.education import EDUCATION_REVIEWED_AT, match_education
 from mf_facts.guardrails.intent import (
     FACT,
     REFUSAL,
@@ -144,6 +145,22 @@ class Service:
                 text=templates.REFUSALS[Intent.OUT_OF_SCOPE],
                 citation_url=templates.DEFLECTION_LINK[Intent.OUT_OF_SCOPE],
                 updated_at=date.today(),
+                trace_id=trace_id,
+            ))
+
+        if intent is Intent.EDUCATION:
+            entry = match_education(question)
+            if entry is None:
+                trace.set(route="not_found")
+                return done(Answer(kind="not_found", text=templates.NOT_FOUND_MESSAGE,
+                                   trace_id=trace_id))
+            trace.set(route="education")
+            updated = self.retriever.fetched_at_for(entry.url) or EDUCATION_REVIEWED_AT
+            return done(Answer(
+                kind="answer",
+                text=entry.answer,
+                citation_url=entry.url,
+                updated_at=updated,
                 trace_id=trace_id,
             ))
 

@@ -17,7 +17,7 @@ SCHEMES = [
     ("Exit load if I redeem in 6 months?", Intent.EXIT_LOAD),
     ("Minimum SIP amount?", Intent.MIN_SIP),
     ("Lock-in for ELSS?", Intent.LOCK_IN),
-    ("What is the riskometer level?", Intent.RISKOMETER),
+    ("Riskometer level?", Intent.RISKOMETER),
     ("Benchmark of HDFC Index Fund?", Intent.BENCHMARK),
     ("How do I download my capital gains statement?", Intent.STATEMENT),
     ("What is the fund category?", Intent.SCHEME_META),
@@ -40,7 +40,37 @@ def test_refusal_intents(q, intent):
 
 
 def test_exit_load_sell_is_not_advice():
-    assert route("What is the exit load if I sell my units?", SCHEMES) == Intent.EXIT_LOAD
+    assert route("Exit load if I sell my units?", SCHEMES) == Intent.EXIT_LOAD
+
+
+@pytest.mark.parametrize("q,intent", [
+    ("What is a mutual fund?", Intent.EDUCATION),
+    ("What is mutual funds?", Intent.EDUCATION),
+    ("What is a flexi cap fund?", Intent.EDUCATION),
+    ("Can you give me some example of flexi cap funds?", Intent.EDUCATION),
+    ("What is SIP?", Intent.EDUCATION),
+    ("What is NAV?", Intent.EDUCATION),
+    ("What is a riskometer?", Intent.EDUCATION),
+    ("What is the difference between direct and regular plan?", Intent.EDUCATION),
+    ("What is the expense ratio?", Intent.EDUCATION),
+])
+def test_education_intents(q, intent):
+    assert route(q, SCHEMES) == intent
+
+
+def test_scheme_fact_beats_education():
+    assert route("What is the expense ratio of HDFC Flexi Cap Fund?", SCHEMES) == \
+        Intent.EXPENSE_RATIO
+
+
+def test_refusal_beats_education():
+    assert route("Should I buy a flexi cap fund?", SCHEMES) == Intent.ADVICE
+    assert route("What is the best flexi cap fund?", SCHEMES) == Intent.ADVICE
+
+
+def test_statement_download_stays_on_fact_path():
+    assert route("How do I download my capital gains statement?", SCHEMES) == \
+        Intent.STATEMENT
 
 
 def test_scheme_detection_full_name():

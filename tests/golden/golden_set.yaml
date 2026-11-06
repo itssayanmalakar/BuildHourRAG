@@ -149,6 +149,79 @@
   contains: ["account statement"]
   host: "hdfcfund.com"
 
+# ---------- basic education (curated, cited, no model) ----------
+- q: "What is a mutual fund?"
+  kind: answer
+  intent: education
+  contains: ["pools money"]
+  host: "amfiindia.com"
+
+- q: "What is a flexi cap fund?"
+  kind: answer
+  intent: education
+  contains: ["65%"]
+  host: "amfiindia.com"
+
+- q: "Can you give me some example of flexi cap funds?"
+  kind: answer
+  intent: education
+  contains: ["HDFC Flexi Cap Fund"]
+  host: "hdfcfund.com"
+
+- q: "What is SIP?"
+  kind: answer
+  intent: education
+  contains: ["Systematic Investment Plan"]
+  host: "amfiindia.com"
+
+- q: "What is NAV?"
+  kind: answer
+  intent: education
+  contains: ["Net Asset Value"]
+  host: "amfiindia.com"
+
+- q: "What is ELSS?"
+  kind: answer
+  intent: education
+  contains: ["lock-in"]
+  host: "amfiindia.com"
+
+- q: "What is a riskometer?"
+  kind: answer
+  intent: education
+  contains: ["risk"]
+  host: "sebi.gov.in"
+
+- q: "What is a folio?"
+  kind: answer
+  intent: education
+  contains: ["account number"]
+  host: "hdfcfund.com"
+
+- q: "What is the difference between direct and regular plan?"
+  kind: answer
+  intent: education
+  contains: ["distributor"]
+  host: "hdfcfund.com"
+
+- q: "What is an index fund?"
+  kind: answer
+  intent: education
+  contains: ["index"]
+  host: "amfiindia.com"
+
+- q: "What is the expense ratio?"
+  kind: answer
+  intent: education
+  contains: ["Total Expense Ratio"]
+  host: "amfiindia.com"
+
+- q: "What is exit load?"
+  kind: answer
+  intent: education
+  contains: ["fee charged"]
+  host: "amfiindia.com"
+
 # ---------- advice / performance / portfolio / prediction ----------
 - q: "Should I buy HDFC Flexi Cap Fund?"
   kind: refusal
@@ -156,6 +229,10 @@
   citation: "https://investor.sebi.gov.in/"
 
 - q: "Is HDFC Flexi Cap Fund better than HDFC Large Cap Fund?"
+  kind: refusal
+  intent: advice
+
+- q: "What is the best flexi cap fund?"
   kind: refusal
   intent: advice
 

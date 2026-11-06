@@ -71,6 +71,64 @@ identical.
 
 ---
 
+## Basic mutual-fund education (curated, not model-generated)
+
+These answers come from fixed copy in
+[`src/mf_facts/guardrails/education.py`](src/mf_facts/guardrails/education.py).
+Each one still carries exactly one official source and a fetch date.
+
+### What is a mutual fund?
+
+**Q:** What is a mutual fund?
+
+> A mutual fund pools money from many investors and invests it in a diversified portfolio of securities such as stocks or bonds, managed by a professional asset management company. Units represent an investor's share of the fund's assets, and the fund is regulated by SEBI.
+> Source: https://www.amfiindia.com/mutual-fund
+> Last updated from sources: 2026-11-05
+
+### What is a flexi cap fund?
+
+**Q:** What is a flexi cap fund?
+
+> A flexi cap fund is an equity scheme that must invest at least 65% of its assets in equity and equity-related instruments across large-cap, mid-cap and small-cap companies. The fund manager can shift the allocation between market capitalisations within the scheme's mandate.
+> Source: https://www.amfiindia.com/mutual-fund
+> Last updated from sources: 2026-11-05
+
+### Example of a flexi cap fund
+
+**Q:** Can you give me some example of flexi cap funds?
+
+> Flexi cap funds are equity schemes that invest at least 65% of assets in equity and equity-related instruments across large-cap, mid-cap and small-cap companies. In my current scope, HDFC Flexi Cap Fund is an example of a flexi cap fund.
+> Source: https://www.hdfcfund.com/explore/mutual-funds/hdfc-flexi-cap-fund/direct
+> Last updated from sources: 2026-11-05
+
+### SIP and NAV
+
+**Q:** What is SIP?
+
+> A Systematic Investment Plan (SIP) lets an investor buy fund units at fixed intervals, usually monthly, instead of investing a lump sum at once. Each instalment buys units at the prevailing NAV, so the number of units varies with price.
+> Source: https://www.amfiindia.com/mutual-fund
+> Last updated from sources: 2026-11-05
+
+**Q:** What is NAV?
+
+> Net Asset Value (NAV) is the per-unit value of a mutual fund scheme's assets minus its liabilities, calculated at the end of each business day. It is the price at which units are bought or redeemed, subject to applicable loads and taxes.
+> Source: https://www.amfiindia.com/mutual-fund
+> Last updated from sources: 2026-11-05
+
+### Direct vs regular plan
+
+**Q:** What is the difference between direct and regular plan?
+
+> A direct plan is bought directly from the AMC or a platform without a distributor, while a regular plan includes distributor commission in its expenses. Both plans hold the same portfolio, but their expense ratios and NAVs can differ.
+> Source: https://www.hdfcfund.com/services/faqs
+> Last updated from sources: 2026-11-05
+
+Other curated topics include large/mid/small cap, ELSS, index funds, ETFs,
+riskometer, benchmark, expense ratio, exit load, lock-in, AUM, folio, CAS,
+capital-gains statement, SWP, STP, NFO and tracking error.
+
+---
+
 ## Refusals (pre-LLM, fixed copy)
 
 ### Investment advice
@@ -122,13 +180,13 @@ record only the PII category.
 ## Auto-generated evaluation
 
 `make eval` runs [`tests/golden/golden_set.yaml`](tests/golden/golden_set.yaml),
-35 cases covering all seven fact intents, scheme detection, refusals, PII and
-unknown questions.
+48 cases covering all seven fact intents, basic education, scheme detection,
+refusals, PII and unknown questions.
 
 Latest run:
 
 ```text
-35/35 passed
+48/48 passed
 ```
 
 ---

@@ -178,6 +178,9 @@ landing page *can* be hosted on Vercel, but the FAQ assistant itself cannot.
 - [ ] Open the public URL and ask one fact from each of the 7 intents.
 - [ ] Confirm each answer has exactly one source link and a date.
 - [ ] Ask an advice question and confirm the refusal + educational link.
+- [ ] Ask a basic question ("What is a flexi cap fund?") and confirm one source + date.
+- [ ] Ask two questions in a row and confirm the first turn stays visible above the second.
+- [ ] Click **Clear chat** and confirm the history empties.
 - [ ] Ask an out-of-scope AMC question and confirm the refusal.
 - [ ] Try a PAN/email/phone question and confirm `pii_rejected`.
 - [ ] Confirm `GROQ_MODEL` exists in the host account (`python -m mf_facts.cli models`).
@@ -191,6 +194,7 @@ landing page *can* be hosted on Vercel, but the FAQ assistant itself cannot.
 | `index fingerprint mismatch` | Run `make build`, commit `data/index`, push |
 | `Missing from .env: GROQ_API_KEY...` | Add the secret in the host dashboard, then reboot |
 | First load very slow / times out | Model download on first boot; retry once |
-| `No module named mf_facts` | Host build must include `pip install -e .` |
-| Streamlit Cloud install fails on torch | Confirm `packages.txt` contains `libgomp1` and Python 3.12 |
+| `No module named mf_facts` | Deploy `app.py` from the repo root; it adds `src/` to `sys.path` automatically |
+| Streamlit Cloud install fails on torch | Confirm `packages.txt` contains `libgomp1`; Streamlit Cloud currently runs Python 3.14, so keep `lxml>=6.0.1` for a prebuilt wheel |
+| `lxml` tries to compile from source | A pin below 6.0.1 has no Python 3.14 wheel; use `lxml==6.0.2` |
 | Chroma DB version error | Keep `chromadb==1.1.1` in `requirements.txt` and rebuild the index |

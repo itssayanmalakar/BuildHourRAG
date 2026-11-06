@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from datetime import date
 
 from mf_facts.contracts import RetrievedChunk
 from mf_facts.retrieve.hybrid import BM25Index, fuse
@@ -28,6 +29,16 @@ class Retriever:
                 "index fingerprint mismatch: config changed since the last build. "
                 "Run `make build` again."
             )
+
+    def fetched_at_for(self, url: str) -> date | None:
+        """Newest fetch date for a source, used by the curated education layer."""
+        dates = [c.fetched_at for c in self._chunks if c.url == url]
+        if not dates:
+            return None
+        newest = max(dates)
+        return newest.date() if hasattr(newest, "date") else date.fromisoformat(
+            str(newest)[:10]
+        )
 
     def retrieve(self, query: str, scheme: str | None = None,
                  fact_type: str | None = None) -> list[RetrievedChunk]:

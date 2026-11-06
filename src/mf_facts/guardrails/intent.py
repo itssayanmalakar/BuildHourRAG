@@ -4,6 +4,8 @@ from __future__ import annotations
 import re
 from enum import Enum
 
+from mf_facts.guardrails.education import LOOKUP_RE, match_education
+
 
 class Intent(str, Enum):
     EXPENSE_RATIO = "expense_ratio"
@@ -14,6 +16,7 @@ class Intent(str, Enum):
     BENCHMARK = "benchmark"
     STATEMENT = "statement"
     SCHEME_META = "scheme_meta"
+    EDUCATION = "education"
     ADVICE = "advice"
     PERFORMANCE = "performance"
     PORTFOLIO = "portfolio"
@@ -32,7 +35,8 @@ ADVICE_RE = re.compile(
     r"\b(should i|shall i|is it (good|safe|worth)|worth investing|is this fund good"
     r"|recommend|recommendation|advice|suggest|which fund is best|best fund"
     r"|better fund|better than|which (one )?is better|compare|comparison|versus"
-    r"|invest or not)\b", re.I)
+    r"|invest or not)\b"
+    r"|\b(good|best|top)\b[^?.!]{0,30}\bfunds?\b", re.I)
 PERFORMANCE_RE = re.compile(
     r"\b(returns?|cagr|xirr|annualis|annualiz|outperform|underperform"
     r"|multibagger|how much (will|would) i (get|earn)|past performance)\b", re.I)
@@ -84,9 +88,22 @@ def route(question: str, scope_schemes: list[str]) -> Intent:
     if OTHER_AMC_RE.search(q) and not in_scope:
         return Intent.OUT_OF_SCOPE
 
-    for intent, pattern in FACT_RULES:
-        if pattern.search(q):
-            return intent
+    matched_fact = next(
+        (intent for intent, pattern in FACT_RULES if pattern.search(q)), None
+    )
+    scheme = detect_scheme(q, scope_schemes)
+    education = match_education(q)
+
+    # A named scheme plus a factual field always takes the retrieval path.
+    if matched_fact is not None and scheme:
+        return matched_fact
+    # Definitions and examples are curated, not generated.
+    if education is not None and LOOKUP_RE.search(q):
+        return Intent.EDUCATION
+    if education is not None and matched_fact is None:
+        return Intent.EDUCATION
+    if matched_fact is not None:
+        return matched_fact
     return Intent.UNKNOWN
 
 
