@@ -4,7 +4,7 @@ httpx==0.28.1
 curl-cffi==0.17.0
 trafilatura==1.12.2
 beautifulsoup4==4.15.0
-lxml==5.4.0
+lxml==6.0.2
 pydantic==2.14.2
 PyYAML==6.0.3
 python-dotenv==1.2.4
